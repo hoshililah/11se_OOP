@@ -21,6 +21,12 @@ def verify_credit_card(card_num):
       return True
   return False
 
+card_num = card = print(input('Enter credit card number: '))
+if verify_credit_card(card_num) == True:
+  print('VALID')
+else:
+  print('INVALID')
+
 
 help()
 increase_age()

@@ -15,3 +15,20 @@ account_balance = 129.95
 #4 Prompt user for updated credit card number and save new number
 #5 Change owner name to Alex Jones
 #6 Subtract $25 from account balance
+
+name = ('Guy')
+animal_category = ('Fish')
+age = 4
+vaccinated = False
+billing_address = ('17 Park Street, The Shire 2695')
+owner_name = ('Alex Jones')
+account_balance = 104.95
+
+card = print(input('Enter credit card number: '))
+print(name)
+print(animal_category)
+print(age)
+print(vaccinated)
+print(owner_name)
+print(account_balance)
+
