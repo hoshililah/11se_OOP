@@ -1,7 +1,7 @@
 name = 'Bonnie'
 animal_category = 'Cat'
 age = 3
-vaccinated = True
+vaccinated = False
 ccard = '3423 2326 7543 1234'
 billing_address = '17 Park Drive, The Shire 2695'
 owner_name = 'Alex Ngyuen'
@@ -15,11 +15,22 @@ def increase_age():
   global age
   age = age + 1
 
+
+help()
+increase_age()
+print(age)
+
 def verify_credit_card(card_num):
   if len(card_num) == 19:
     if len(card_num.split()) == 4:
       return True
   return False
+
+num = '1234 4334 1001 0000' 
+if verify_credit_card(num) == True: 
+  print('VALID')
+else:
+  print('INVALID')
 
 num = input('Enter credit card number: ')
 if verify_credit_card(num) == True:
@@ -31,16 +42,13 @@ else:
 print(account_balance)
 
 print(vaccinated)
+
 def vaccinate():
   global vaccinated 
-  vaccinated == True
+  vaccinated = True
+vaccinate()
 print(vaccinated) 
-    
-  
 
-help()
-increase_age()
-print(age)
 
 
 #ACTIVITIES:
