@@ -21,12 +21,22 @@ def verify_credit_card(card_num):
       return True
   return False
 
-card_num = card = print(input('Enter credit card number: '))
-if verify_credit_card(card_num) == True:
+num = input('Enter credit card number: ')
+if verify_credit_card(num) == True:
   print('VALID')
+  account_balance -= 39 
 else:
   print('INVALID')
 
+print(account_balance)
+
+print(vaccinated)
+def vaccinate():
+  global vaccinated 
+  vaccinated == True
+print(vaccinated) 
+    
+  
 
 help()
 increase_age()
