@@ -10,6 +10,21 @@ class Pet:
         self.ccard = 'unknown'
         self.vaccinated = False
 
+    def _str_(self):
+        
+    
+    def __str__(self):
+        my_status = 'Name: ' + self.name + '\nCategory: '
+        self.category + '\nAge: ' + str(self.age)
+        return my_status
+
+p1 = Pet('Bonnie', 'Cat', '3')
+
+print(p1)
+
+
+                   
+
 
 
 #ACTIVITIES:
