@@ -10,16 +10,17 @@ class Pet:
         self.ccard = 'unknown'
         self.vaccinated = False
 
-    def _str_(self):
-        
-    
     def __str__(self):
-        my_status = 'Name: ' + self.name + '\nCategory: '
-        self.category + '\nAge: ' + str(self.age)
+        payment_status = 'unregistered'
+        if len(self.ccard) == 19:
+            payment_status = 'registered'
+    
+        my_status = 'Name: ' + self.name + '\nCategory: ' + self.category +  '\nAge: ' + str(self.age) + '\nPayment Status: ' + payment_status + '\nVaccinated: ' + str(self.vaccinated)
         return my_status
+    
 
 p1 = Pet('Bonnie', 'Cat', '3')
-
+p1.ccard = '2455 2309 2903 0964'
 print(p1)
 
 
