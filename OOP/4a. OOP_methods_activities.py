@@ -3,17 +3,32 @@
 # - Discuss the use of attributes in the method
 
 class Pet:
-    def __init__(self, name, category, age = 0):
-        self.name = name
-        self.category = category
-        self.age = age
-        self.ccard = 'unknown'
-        self.vaccinated = False
-        self.account_balance = 0
-    
-    def have_birthday(self):
-        self.age += 1
-    
+    def __init__(self, name, category, age=0): 
+        self.name = name 
+        self.category = category 
+        self.age = age 
+        self.ccard = 'unknown' 
+        self.vaccinated = False 
+        
+    def have_birthday(self): 
+        self.age += 1 
+        
+    def __str__(self):
+        payment_status = 'registered' if len(self.ccard) == 19 else 'unregistered'  
+        vac_status = 'VACCINATED' if self.vaccinated else 'NOT VACCINATED'
+        
+        my_status = 'Name: ' + self.name + '\n' + \
+                    'Category: ' + self.category + '\n' + \
+                    'Age: ' + str(self.age) + '\n' + \
+                    'Payment status: ' + payment_status + '\n' + \
+                    'Vaccinated: ' + vac_status
+        return my_status 
+
+p1 = Pet('Bonnie', 'Cat', 10) 
+p1.vaccinated = True 
+p1.have_birthday() 
+print(p1)
+
     
 
 #ACTIVITIES:
