@@ -9,14 +9,24 @@ class Car:
         self.model = model
         self.year = year
         self.price = price
+        self.for_sale = False 
 
     def __str__(self):
+        if self.for_sale == True:
+            return 'Make: ' + self.make + '    Model: ' + self.model + '    Year: ' + str(self.year) + '    FOR SALE'
+        else:
+            return 'Make: ' + self.make + '    Model: ' + self.model + '    Year: ' + str(self.year) + '    NOT FOR SALE'
 
 
-c1 = Car('Mazda','6',2005)
 
+c1 = Car('Mazda', '6', 2015)
+c1.for_sale = True
+c2 = Car('Toyota', '2', 2003)
+c3 = Car('Honda', '5', 2017)
+c4 = Car('Nissan', '911', 2020)
+c2.for_sale = True
 
-cars = [c1]
+cars = [c1, c2, c3, c4]
 
 for car in cars:
     print(car)
