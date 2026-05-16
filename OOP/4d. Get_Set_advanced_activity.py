@@ -35,6 +35,9 @@ class Pet:
         else:
             print('Please enter a number for weight')
 
+    def have_birthday(self):
+        self.age += 1
+
     def __str__(self):
         payment_status = 'unregistered'
         if len(self.__ccard) == 19:
@@ -46,9 +49,20 @@ class Pet:
 p1 = Pet(name='Bonnie', category='Dog')
 p2 = Pet('Clyde','Cat','Persian',12)
 p3 = Pet('Cindy', 'Dog',age = 3)
+p4 = Pet('Hootie', 'Blowfish', age = 35 )
+p5 = Pet('Rex', 'Dog', breed = 'German Sheperd')
 
 
-pets = [p1,p2,p3]
+pets = [p1,p2,p3,p4,p5]
+
+for pet in pets:
+    pet.have_birthday()
+
+for pet in pets:
+    if pet.get_category() == 'Dog': 
+        print(pet)
+        print()
+
 
 
 #ACTIVITIES:
