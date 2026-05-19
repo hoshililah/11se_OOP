@@ -22,9 +22,25 @@ class Fighter:
             return False
 
     def random_attack(self):
-        attack_power = random.randint(self.weapon/2, self.weapon*2)
+        attack_power = random.randint(self.weapon//2, self.weapon*2)
         print('Attack power:', attack_power)
         return attack_power
+    
+    def skill_attack(self):
+        attack_power = random.randint(self.weapon//2, self.weapon*2)
+        target = random.randint(2,6)
+        print('Hit enter in exactly',target,'seconds')
+        tic = time.time()
+        input()
+        toc = time.time()
+        time_taken = toc - tic
+        multiplier = 3 - abs(target-time_taken)
+        if multiplier < 2:
+            multiplier = 0
+
+        print('Attack power:', attack_power)
+        print('Multiplier:', multiplier)
+        return attack_power*multiplier
 
     def defend(self,attack_power):
         damage = attack_power - self.shield
@@ -40,4 +56,22 @@ troll = Fighter('Troll',300,30,10)
 
 you.report()
 troll.report()
+
+while True:
+    print('You attack the troll')
+    troll.defend(you.skill_attack())
+    troll.report()
+    time.sleep(1)
+    print('')
+    if troll.is_dead():
+        print('You win')
+        break 
+    print('The troll attacks you . . .')
+    you.defend(troll.random_attack())
+    you.report()
+    time.sleep(1)
+    if you.is_dead():
+        print('The troll wins')
+        break 
+    print('')
 
