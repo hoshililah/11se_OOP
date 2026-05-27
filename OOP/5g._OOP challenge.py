@@ -1,10 +1,12 @@
+
+
 import random, time 
 
 #Base Fighter Class
 class Fighter:
     def __init__(self,name, health, shield, strength, agility, intelligence):
         self.name = name
-        self.__health = health
+        self.health = health
         self.shield = shield
         
         self.strength = strength 
@@ -13,10 +15,10 @@ class Fighter:
   
 #Display Health
     def report(self):
-        print(self.name+':'+ ' Health: '+ str(self.__health))
+        print(self.name+':'+ ' Health: '+ str(self.health))
 
     def is_dead(self):
-        return self.__health <= 0
+        return self.health <= 0
 
         
 # Basic Attack
@@ -35,7 +37,7 @@ class Fighter:
         tic = time.time()
         input()
         toc = time.time()
-        time_taken = round(toc - tic)
+        time_taken = (toc - tic)
 
 # Successful Timing
         if time_taken == target:
@@ -51,7 +53,7 @@ class Fighter:
     def defend(self,attack_power):
         damage = attack_power - self.shield
         if damage >  0:
-            self.__health -= damage
+            self.health -= damage
             print(self.name, "takes", damage, "damage")
         else:
             print(self.name, "blocked the attack")
@@ -94,13 +96,12 @@ class Ninja(Fighter):
         return chance <= self.dodge_chance
 
 # Ninja critical attack
-    def attack(self):
-        critical = random.randint(1,100)
-        if critical <= 30:
-            damage = random.randint(40,60)
-            print("CRITICAL HIT!")
-            return damage 
-        return random.randint(10,20)
+    def shadow_strike(self):
+        damage = random.randint(25,50)
+        if random.randint(1,100) <= 50:
+            damage *= 2
+            print("Shadow Hit!")
+        return damage 
 
 #MAGE CLASS
 class Mage(Fighter):
@@ -116,17 +117,15 @@ class Mage(Fighter):
         self.mana = 100
     
 # Magic Attack
-    def attack(self):
-        damage = random.randint(15,25)
-        if self.mana >= 20:
-            self.mana -= 20
-            damage += 25
-            print(self.name, "uses magic!")
-            print("Mana remaining:", self.mana)
+    def fireball(self):
+        if self.mana >= 30:
+            self.mana -= 30
+            damage = random.randint(50,70)
+            print(self.name, "casts FIREBALL!")
             return damage 
         else:
-            print("The Mage is low on mana!")
-        return damage
+            print("Not enough Mana!")
+            return self.attack()
 
 #TROLL CLASS
 class Troll(Fighter):
@@ -141,7 +140,7 @@ class Troll(Fighter):
         )
 #Troll Regeneration
     def regeneration(self):
-        self.__health += 10
+        self.health += 10
         print("The Troll regernerates 10 health!")
 
 #GNOME CLASS
@@ -179,13 +178,17 @@ class Serpent(Fighter):
     def venom_strike(self):
         print("The Serpent prepares a venom strike!")
         print("Press ENTER in exactly 2 seconds!")
+
         tic = time.time()
         input()
         toc = time.time()
-        time_taken = round(toc - tic)
-        if time_taken != 2:
+       
+        time_taken = (toc - tic)
+        
+        if time_taken != 2 <= 0.3:
             print("The Serpent strikes!")
             return True
+        
         print("You avoided the venom strike!")
         return False
 
@@ -194,32 +197,33 @@ class Serpent(Fighter):
 # --------------------------------
 
 print()
+print("______________________________________")
+print()
 print('WELCOME')
-print()
+print("______________________________________")
 print(""" 
-      The king has fallen deathly ill after being poisoned by an ancient curse. 
+The king has fallen deathly ill after being poisoned by an ancient curse. 
     
-      Only one cure exists.
+Only one cure exists.
     
-      A legendary medicine made from:
+A legendary medicine made from:
     
-      > Troll blood
-      > Gnome beard moss
-      > Serpent venom 
+    - Troll blood
+    - Gnome beard moss
+    - Serpent venom 
     
-      You are the final warrior brave enough to travel through the cursed lands and gather the ingredients.
+You are the final warrior brave enough to travel through the cursed lands and gather the ingredients.
     
-      But each creature of course does not want to die. 
+But each creature of course does not want to die. 
       
-      The troll relies on brute strength.
-      The gnome uses intelligence and deception.
-      The serpent waits silently for the perfect moment to strike.
+The troll relies on brute strength.
+The gnome uses intelligence and deception.
+The serpent waits silently for the perfect moment to strike.
       
-      Failure means death.
+Failure means death.
        
-      """)
+""")
 
-print()
 print("Choose your character.") 
 print("""
       1. Warrior
@@ -227,23 +231,23 @@ print("""
       3. Mage 
       """)
 
-print()
 choice = input("Type the number of your chosen character: ")
+print()
 if choice == "1":
     you = Warrior("Hero")
-    print("You have chosen the Warror! Prepare for combat!")
+    print("You have chosen the Warror! \nPrepare for combat!")
 
 elif choice == "2":
     you = Ninja("Hero")
-    print("You have chosen the Ninja! Stealth and Agility are your allies.")
+    print("You have chosen the Ninja! \nStealth and Agility are your allies.")
 
 elif choice == "3":
     you = Mage("Hero")
-    print("You have chosen the Mage! Will magic be the ultimate weapon?")
+    print("You have chosen the Mage! \nWill magic be the ultimate weapon?")
 
 else:
     you = Warrior("Hero")
-    print("Invalid choice. \n Your fate has been decided. \n Prepare for combat Warrior")
+    print("Invalid choice. \nYour fate has been decided. \nPrepare for combat Warrior")
 
 
 # ----------------------------
@@ -255,38 +259,18 @@ def battle(you, enemy):
     while True:
         print()
 
-    # Gnome confusion ability
         if isinstance(enemy, Gnome):
             if enemy.confuse():
-                pass
-            else:
-                enemy.defend(you.skill_attack())
-        else:
-            enemy.defend(you.skill_attack())
-        
-        enemy.report()
-        time.sleep(2)
-
-    # Troll regeneration
-        if isinstance(enemy, Troll):
-            if random.randint(1,100) <= 30:
-                enemy.regeneration()
-            
-            if enemy.is_dead():
-                print()
-                print("You defeated", enemy.name)
-                return True
-        
-    # Serpent venom strike
-        if isinstance(enemy, Serpent):
-            if enemy.venom_strike():
-                print("The venom kills you instantly!")
-                return False
-            
+                print("The Gnome confuses you!")
+                continue
+    
+        # ------------
+        # PLAYER TURN
+        # ------------
         print()
         print("Choose your attack: ")
-        print("1. Normal Attack")
-        print("2. Special Attack")
+        print("     1. Normal Attack")
+        print("     2. Special Attack")
 
         attack_choice = input("Choice: ")
         
@@ -294,38 +278,54 @@ def battle(you, enemy):
         if attack_choice == "1":
             damage = you.skill_attack()
 
-        # SPECIAL ABILITY
+        # SPECIAL ATTACK
         elif attack_choice == "2":
             
-            # Warruor special attack
+        # Warrior special attack
             if isinstance(you, Warrior):
                 damage = you.mega_attack()
 
-            # Mage special attack
+        # Mage special attack
             elif isinstance(you,Mage):
-                damage = you.attack()
+                damage = you.fireball()
 
             elif isinstance(you, Ninja):
-                damage = you.attack()
-            else:
-                print("Invalid choice.")
-                damage = you.attack()
-            enemy.defend(damage)
-
-        print(enemy.name, "attacks!")
-
-        if isinstance(you, Ninja):
-            if you.dodge():
-                print("You dodged the attack!")
-            else:
-                you.defend(enemy.attack())
-
-        if isinstance(you, Warrior):
-            if you.mega_attack():
-                print('You used MEGA attack!')
-            else:
-                you.defend(enemy.attack())
+                damage = you.shadow_strike()
+        else:
+            print("Invalid choice.")
+            damage = you.skill_attack()
         
+        enemy.defend(damage)
+
+        enemy.report()
+
+        if enemy.is_dead():
+            print()
+            print("You defeated the", enemy.name, "!")
+            return True
+
+        # Troll regeneration
+        if isinstance(enemy, Troll):
+            if random.randint(1,100) <= 30:
+                enemy.regeneration()
+        
+        # Serpent venom strike
+        if isinstance(enemy, Serpent):
+            if enemy.venom_strike():
+                print("The venom kills you instantly!")
+                return False
+            
+    # -------------
+    # ENEMY TURN
+    # -------------
+        print()
+        print(enemy.name, "attacks!")
+    
+    # Ninja dodge ability
+        if isinstance(you, Ninja) and you.dodge():
+            print("You dodged the attack!")
+        else:
+            you.defend(enemy.attack())
 
         you.report()
         time.sleep(2)
@@ -339,13 +339,18 @@ def battle(you, enemy):
 # TROLL LEVEL
 # ----------------------------
 
+print()
+print("Level 1: You must defeat the Troll and collect its blood.")
+print()
 lives = 3     
 while True:
     enemy = Troll()
     won = battle(you, enemy)
     if won:
         print()
-        print("You collected Troll Blood!")
+        print("You collected the Troll Blood!")
+        print("___________________________")
+        print()
         break
     else:
         lives -= 1
@@ -365,6 +370,10 @@ while True:
 # ----------------------------
 # GNOME LEVEL
 # ----------------------------
+
+print()
+print("Level 2: You must defeat the Gnome and collect the moss from its Beard.")
+print()
 
 lives = 3    
 while True:
@@ -393,6 +402,9 @@ while True:
 # SERPENT LEVEL
 # ----------------------------
 
+print()
+print("Final Level: You must defeat the Serpent and collect its Venom.")
+print()
 
 enemy = Serpent()
 won = battle(you, enemy)
@@ -412,11 +424,13 @@ else:
 print()
 print("You have gathered all 3 ingredients!")
 print("""
-    The medicine is created...
-    The King drinks the cure.
-    The curse is broken!
-    For your bravery, you are Knighted by the King.
-    """)
+\nThe medicine is created...
+The King drinks the cure.
+
+The curse is broken!
+
+For your bravery, you are Knighted by the King.
+""")
 print()
 print('_____________________________________')
 print()
