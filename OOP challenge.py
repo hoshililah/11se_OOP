@@ -52,7 +52,7 @@ class Fighter:
             print(f'Attack power: {damage}')
             return damage
 
-    def defend(self.attack_power):
+    def defend(self, attack_power):
         if self.dodging:
             print(self.name, "dodges the attack!")
             self.dodging = False
