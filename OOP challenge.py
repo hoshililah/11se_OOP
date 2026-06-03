@@ -45,14 +45,14 @@ class Fighter:
         if time_taken == target:
             damage = self.attack() * 2
             print("Perfect!")
-            print("Critical damage:", damage)
+            print("Damage:", int(damage))
             return damage 
         else:
             damage = int(attack*multiplier)
             print(f'Attack power: {damage}')
             return damage
 
-    def defend(self,attack_power):
+    def defend(self.attack_power):
         if self.dodging:
             print(self.name, "dodges the attack!")
             self.dodging = False
@@ -118,7 +118,7 @@ class Mage(Fighter):
     def fireball(self):
         if self.mana >= 30:
             self.mana -= 30
-            damage = self.intelligence + self.mana//2 + random.randint(20,40)
+            damage = self.intelligence + self.mana//2
             print(self.name, "casts Fireball!")
             return damage 
         else:
@@ -247,6 +247,8 @@ elif choice == "3":
 else:
     you = Warrior("Hero")
     print("Invalid choice. \nYour fate has been decided. \nYou are a Warrior!")
+
+time.sleep(2)
 
 def battle(player,enemy):
     while True:
