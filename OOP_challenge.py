@@ -19,14 +19,14 @@ class Fighter:
 
     def is_dead(self):
         return self._health <= 0
-
-    def random_attack(self):
-        return self.strength + random.randint(5, 20)
-
+    
     def attack(self):
-        return self.random_attack()
+        return self.strength + random.randint(5, 15)
+    
+    def random_attack(self):
+        return self.strength // 2 + self.agility // 2 + self.intelligence // 2
 
-    def skill_attack(self):
+    def basic_attack(self):
         target = random.randint(2, 6)
         print('Hit Enter in exactly', target, 'seconds')
         tic = time.time()
@@ -100,7 +100,7 @@ class Warrior(Fighter):
         
     def rage_strike(self):
         print(self.name, "uses Rage Strike!")
-        return self.skill_attack() * 2
+        return self.basic_attack() * 2
 
 
 # NINJA CLASS
@@ -110,10 +110,10 @@ class Ninja(Fighter):
         
     def shadow_dodge(self):
         print(self.name, "uses Shadow Dodge!")
-        chance = random.randint(1, 60) + (self.agility // 2)
+        chance = random.randint(1, 60) + self.agility
         if random.randint(1, 100) <= chance:
             self.dodging = True
-            print("Dodge ready for the enemy's next turn!")
+            print("You dodged the next attack!")
             return True
         else:
             print("Dodge failed!")
@@ -159,20 +159,22 @@ class Gnome(Fighter):
 class Serpent(Fighter):
     def __init__(self, name):
         super().__init__(name, 100, 30, 30, 40, 20)
-        
+    
     def venom_strike(self):
         print("The Serpent prepares a venom strike!")
         print("Press ENTER in exactly 2 seconds!")
+
         tic = time.time()
         input()
         toc = time.time()
-        time_taken = toc - tic
-        if 1.8 < time_taken < 2.2:
-            print("You avoided the venom strike!")
-            return 0
-        print("The Serpent bites you with deadly venom!")
-        return 999
 
+        if 1.8 < (toc - tic) < 2.2:
+            print("You avoided the venom strike!")
+            return False  
+        else:
+            print("The Serpent bites you with deadly venom!")
+            return True  
+        
 
 # STORY INTRO
 print("\n______________________________________\n")
@@ -220,12 +222,12 @@ def battle(player, enemy):
         enemy.report()
         
         print("\n1. Basic Attack")
-        print("2. Special/Skill Attack")
+        print("2. Special Attack")
         choice_action = input("> ")
         
         # Players Turn
         if choice_action == "1":
-            damage = player.attack()
+            damage = player.basic_attack()
         elif choice_action == "2":
             if isinstance(player, Warrior):
                 damage = player.rage_strike()
@@ -233,11 +235,11 @@ def battle(player, enemy):
                 damage = player.fireball()
             elif isinstance(player, Ninja):
                 player.shadow_dodge()
-                damage = player.attack()  # Ninja attacks normally after establishing dodge frame
+                damage = player.attack() 
             else:
                 damage = player.attack()
         else:
-            print("Invalid Action! Defaulting to Basic Attack.")
+            print("Invalid.")
             damage = player.attack()
             
         enemy.defend(damage)
@@ -252,7 +254,11 @@ def battle(player, enemy):
         elif isinstance(enemy, Gnome):
             attack_power = enemy.trickster() if random.randint(1, 100) <= 30 else enemy.random_attack()
         elif isinstance(enemy, Serpent):
-            attack_power = enemy.venom_strike()
+            if enemy.venom_strike():
+                print("Instant death!")
+                return False
+            attack_power = enemy.random_attack()
+
         else:
             attack_power = enemy.random_attack()
             
@@ -263,7 +269,7 @@ def battle(player, enemy):
             return False
 
 
-# LEVEL GAME LOOP ENGINE
+# GAME LEVELS 
 levels = [
     {"name": "Level 1: Defeat the Troll.", "class": Troll, "monster": "Troll", "item": "Troll Blood"},
     {"name": "Level 2: Defeat the Gnome.", "class": Gnome, "monster": "Gnome", "item": "Gnome Beard Moss"},
